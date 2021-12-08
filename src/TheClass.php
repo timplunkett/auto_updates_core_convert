@@ -13,14 +13,14 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function getSetting($key) {
+  public static function getSetting($key):string {
     return static::getSettings()[$key];
   }
 
   /**
    * @todo.
    */
-  public static function getCoreModulePath() {
+  public static function getCoreModulePath():string {
     return TheClass::getSetting('core_dir') . '/core/modules/auto_updates';
   }
 
@@ -83,7 +83,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function getDirContents($path, $excludeDirs = FALSE) {
+  public static function getDirContents($path, $excludeDirs = FALSE):Array {
     $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
     $files = array();
@@ -101,7 +101,7 @@ class TheClass {
   /**
    * @todo.
    */
-  protected static function getSettings() {
+  protected static function getSettings():string {
     static $settings;
     if(!$settings) {
       $settings = Yaml::parseFile(__DIR__ . '/../config.yml');
@@ -120,7 +120,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function ensureGitClean() {
+  public static function ensureGitClean():string {
     $status_output = shell_exec('git status');
     if(strpos($status_output, 'nothing to commit, working tree clean') == FALSE) {
       throw new \Exception("git not clean: " .$status_output);
@@ -131,7 +131,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function getCurrentBranch() {
+  public static function getCurrentBranch():string {
     return trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
   }
 
