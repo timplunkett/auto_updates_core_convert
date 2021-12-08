@@ -13,7 +13,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function getSetting($key):string {
+  public static function getSetting(string $key):string {
     return static::getSettings()[$key];
   }
 
@@ -27,7 +27,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function replaceContents($search, $replace) {
+  public static function replaceContents(string $search, string $replace) {
     $files = static::getDirContents(static::getCoreModulePath(), TRUE);
     foreach($files as $file) {
       $filePath = $file->getRealPath();
@@ -39,7 +39,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function renameFiles($old_pattern, $new_pattern) {
+  public static function renameFiles(string $old_pattern, string $new_pattern) {
     $files = static::getDirContents(static::getCoreModulePath());
 
     // Keep a record of the files and directories to change.
@@ -83,7 +83,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function getDirContents($path, $excludeDirs = FALSE):Array {
+  public static function getDirContents(string $path, $excludeDirs = FALSE):Array {
     $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
     $files = array();
@@ -149,7 +149,7 @@ class TheClass {
   /**
    * @todo.
    */
-  public static function switchToBranch($branch) {
+  public static function switchToBranch(string $branch) {
     static::ensureGitClean();
     shell_exec("git checkout $branch");
     if($branch != static::getCurrentBranch()) {
