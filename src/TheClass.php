@@ -10,16 +10,26 @@ use Symfony\Component\Yaml\Yaml;
  */
 class TheClass
 {
+
+  /**
+   * @todo.
+   */
   public static function getSetting($key)
   {
     return static::getSettings()[$key];
   }
 
+  /**
+   * @todo.
+   */
   public static function getCoreModulePath()
   {
     return TheClass::getSetting('core_dir') . '/core/modules/auto_updates';
   }
 
+  /**
+   * @todo.
+   */
   public static function replaceContents($search, $replace)
   {
     $files = static::getDirContents(static::getCoreModulePath(), TRUE);
@@ -30,6 +40,9 @@ class TheClass
 
   }
 
+  /**
+   * @todo.
+   */
   public static function renameFiles($old_pattern, $new_pattern)
   {
     $files = static::getDirContents(static::getCoreModulePath());
@@ -72,6 +85,9 @@ class TheClass
     }
   }
 
+  /**
+   * @todo.
+   */
   public static function getDirContents($path, $excludeDirs = FALSE)
   {
     $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
@@ -88,6 +104,9 @@ class TheClass
     return $files;
   }
 
+  /**
+   * @todo.
+   */
   protected static function getSettings()
   {
     static $settings;
@@ -105,6 +124,9 @@ class TheClass
     return $settings;
   }
 
+  /**
+   * @todo.
+   */
   public static function ensureGitClean()
   {
     $status_output = shell_exec('git status');
@@ -114,11 +136,17 @@ class TheClass
     return TRUE;
   }
 
+  /**
+   * @todo.
+   */
   public static function getCurrentBranch()
   {
     return trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
   }
 
+  /**
+   * @todo.
+   */
   public static function switchToBranches()
   {
     $settings = static::getSettings();
@@ -128,6 +156,9 @@ class TheClass
     static::switchToBranch($settings['core_mr_branch']);
   }
 
+  /**
+   * @todo.
+   */
   public static function switchToBranch($branch)
   {
     static::ensureGitClean();
@@ -137,6 +168,9 @@ class TheClass
     }
   }
 
+  /**
+   * @todo.
+   */
   public static function makeCommit()
   {
     chdir(self::getSetting('contrib_dir'));
