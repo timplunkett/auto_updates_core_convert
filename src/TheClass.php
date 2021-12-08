@@ -8,30 +8,26 @@ use Symfony\Component\Yaml\Yaml;
 /**
  * A class to do all the things.
  */
-class TheClass
-{
+class TheClass {
 
   /**
    * @todo.
    */
-  public static function getSetting($key)
-  {
+  public static function getSetting($key) {
     return static::getSettings()[$key];
   }
 
   /**
    * @todo.
    */
-  public static function getCoreModulePath()
-  {
+  public static function getCoreModulePath() {
     return TheClass::getSetting('core_dir') . '/core/modules/auto_updates';
   }
 
   /**
    * @todo.
    */
-  public static function replaceContents($search, $replace)
-  {
+  public static function replaceContents($search, $replace) {
     $files = static::getDirContents(static::getCoreModulePath(), TRUE);
     foreach($files as $file) {
       $filePath = $file->getRealPath();
@@ -43,8 +39,7 @@ class TheClass
   /**
    * @todo.
    */
-  public static function renameFiles($old_pattern, $new_pattern)
-  {
+  public static function renameFiles($old_pattern, $new_pattern) {
     $files = static::getDirContents(static::getCoreModulePath());
 
     // Keep a record of the files and directories to change.
@@ -88,8 +83,7 @@ class TheClass
   /**
    * @todo.
    */
-  public static function getDirContents($path, $excludeDirs = FALSE)
-  {
+  public static function getDirContents($path, $excludeDirs = FALSE) {
     $rii = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path));
 
     $files = array();
@@ -107,8 +101,7 @@ class TheClass
   /**
    * @todo.
    */
-  protected static function getSettings()
-  {
+  protected static function getSettings() {
     static $settings;
     if(!$settings) {
       $settings = Yaml::parseFile(__DIR__ . '/../config.yml');
@@ -127,8 +120,7 @@ class TheClass
   /**
    * @todo.
    */
-  public static function ensureGitClean()
-  {
+  public static function ensureGitClean() {
     $status_output = shell_exec('git status');
     if(strpos($status_output, 'nothing to commit, working tree clean') == FALSE) {
       throw new \Exception("git not clean: " .$status_output);
@@ -139,16 +131,14 @@ class TheClass
   /**
    * @todo.
    */
-  public static function getCurrentBranch()
-  {
+  public static function getCurrentBranch() {
     return trim(shell_exec('git rev-parse --abbrev-ref HEAD'));
   }
 
   /**
    * @todo.
    */
-  public static function switchToBranches()
-  {
+  public static function switchToBranches() {
     $settings = static::getSettings();
     chdir($settings['contrib_dir']);
     static::switchToBranch('8.x-2.x');
@@ -159,8 +149,7 @@ class TheClass
   /**
    * @todo.
    */
-  public static function switchToBranch($branch)
-  {
+  public static function switchToBranch($branch) {
     static::ensureGitClean();
     shell_exec("git checkout $branch");
     if($branch != static::getCurrentBranch()) {
@@ -171,8 +160,7 @@ class TheClass
   /**
    * @todo.
    */
-  public static function makeCommit()
-  {
+  public static function makeCommit() {
     chdir(self::getSetting('contrib_dir'));
     self::ensureGitClean();
     $hash = trim(shell_exec('git rev-parse HEAD'));
