@@ -51,7 +51,7 @@ class TheClass {
     $dirsToChange = [];
     foreach ($files as $file) {
       $fileName = $file->getFilename();
-      if ($fileName == '.') {
+      if ($fileName === '.') {
         $fullPath = $file->getPath();
         $parts = explode('/', $fullPath);
         $name = array_pop($parts);
@@ -61,7 +61,7 @@ class TheClass {
         $name = $fileName;
         $path = $file->getPath();
       }
-      if (strpos($name, $old_pattern) != FALSE) {
+      if (strpos($name, $old_pattern) !== FALSE) {
         $new_filename = str_replace($old_pattern, $new_pattern, $name);
         if ($file->isFile()) {
           $filesToChange[$file->getRealPath()] = $file->getPath() . "/$new_filename";
@@ -122,7 +122,7 @@ class TheClass {
    */
   public static function ensureGitClean():string {
     $status_output = shell_exec('git status');
-    if (strpos($status_output, 'nothing to commit, working tree clean') == FALSE) {
+    if (strpos($status_output, 'nothing to commit, working tree clean') === FALSE) {
       throw new \Exception("git not clean: " .$status_output);
     }
     return TRUE;
@@ -152,7 +152,7 @@ class TheClass {
   public static function switchToBranch(string $branch) {
     static::ensureGitClean();
     shell_exec("git checkout $branch");
-    if ($branch != static::getCurrentBranch()) {
+    if ($branch !== static::getCurrentBranch()) {
       throw new \Exception("could not check $branch");
     }
   }
