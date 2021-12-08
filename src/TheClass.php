@@ -29,7 +29,7 @@ class TheClass {
    */
   public static function replaceContents(string $search, string $replace) {
     $files = static::getDirContents(static::getCoreModulePath(), TRUE);
-    foreach($files as $file) {
+    foreach ($files as $file) {
       $filePath = $file->getRealPath();
       file_put_contents($filePath,str_replace($search,$replace,file_get_contents($filePath)));
     }
@@ -49,9 +49,9 @@ class TheClass {
     // folder levels but we don't.
     $filesToChange = [];
     $dirsToChange = [];
-    foreach($files as $file) {
+    foreach ($files as $file) {
       $fileName = $file->getFilename();
-      if($fileName == '.') {
+      if ($fileName == '.') {
         $fullPath = $file->getPath();
         $parts = explode('/', $fullPath);
         $name = array_pop($parts);
@@ -61,9 +61,9 @@ class TheClass {
         $name = $fileName;
         $path = $file->getPath();
       }
-      if(strpos($name, $old_pattern) != FALSE) {
+      if (strpos($name, $old_pattern) != FALSE) {
         $new_filename = str_replace($old_pattern, $new_pattern, $name);
-        if($file->isFile()) {
+        if ($file->isFile()) {
           $filesToChange[$file->getRealPath()] = $file->getPath() . "/$new_filename";
         }
         else {
@@ -71,11 +71,11 @@ class TheClass {
         }
       }
     }
-    foreach($filesToChange as $old => $new) {
+    foreach ($filesToChange as $old => $new) {
       (new Filesystem())->rename($old, $new);
     }
 
-    foreach($dirsToChange as $old => $new) {
+    foreach ($dirsToChange as $old => $new) {
       (new Filesystem())->rename($old, $new);
     }
   }
@@ -88,8 +88,8 @@ class TheClass {
 
     $files = array();
     /** @var \SplFileInfo $file */
-    foreach($rii as $file) {
-      if($excludeDirs && $file->isDir()) {
+    foreach ($rii as $file) {
+      if ($excludeDirs && $file->isDir()) {
         continue;
       }
       $files[] = $file;
@@ -103,12 +103,12 @@ class TheClass {
    */
   protected static function getSettings():string {
     static $settings;
-    if(!$settings) {
+    if (!$settings) {
       $settings = Yaml::parseFile(__DIR__ . '/../config.yml');
       $settings_keys = array_keys($settings);
       $require_settings = ['core_mr_branch', 'contrib_dir', 'core_dir'];
       $missing_settings = array_diff($require_settings, $settings_keys);
-      if($missing_settings) {
+      if ($missing_settings) {
         throw new \Exception('Missing settings: ' . print_r($missing_settings,
             TRUE));
       }
@@ -122,7 +122,7 @@ class TheClass {
    */
   public static function ensureGitClean():string {
     $status_output = shell_exec('git status');
-    if(strpos($status_output, 'nothing to commit, working tree clean') == FALSE) {
+    if (strpos($status_output, 'nothing to commit, working tree clean') == FALSE) {
       throw new \Exception("git not clean: " .$status_output);
     }
     return TRUE;
@@ -152,7 +152,7 @@ class TheClass {
   public static function switchToBranch(string $branch) {
     static::ensureGitClean();
     shell_exec("git checkout $branch");
-    if($branch != static::getCurrentBranch()) {
+    if ($branch != static::getCurrentBranch()) {
       throw new \Exception("could not check $branch");
     }
   }
